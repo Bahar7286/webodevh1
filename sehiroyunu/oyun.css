@@ -98,3 +98,12 @@ nav a:hover {
   color: #007acc;
   text-decoration: underline;
 }
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+  }
+  table {
+    width: 100%;
+    font-size: 14px;
+  }
+}

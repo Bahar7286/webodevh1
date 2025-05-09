@@ -2,34 +2,23 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <!-- Stil dosyasını sayfaya bağlar (genel tasarım için) -->
   <link rel="stylesheet" href="../style.css">
-
-  <!-- Sekme simgesi olarak görüntülenecek küçük simge -->
   <link rel="icon" type="image/png" href="../img/favicon.png">
-
-  <!-- Sayfa başlığı (tarayıcı sekmesinde görünür) -->
   <title>Ziyaretçi Formu</title>
 </head>
 <body>
-  <!-- Ana başlık -->
   <h1>Ziyaretçi Bilgi Formu</h1>
 
-  <!-- Tema değiştirme butonları -->
+  <!-- Tema değiştirme -->
   <button onclick="temaDegistir('#FFD1DC')">Pembe Tema</button>
   <button onclick="temaDegistir('#FFD580')">Varsayılan Tema</button>
-
-  <!-- JavaScript dosyası (tema değişimi gibi işlevler burada olabilir) -->
   <script src="../myscript.js"></script>
 
-  <!-- Form başlangıcı: GET metodu ile veriler sonuc.html sayfasına gönderilecek -->
-  <form action="sonuc.html" method="get">
-
-    <!-- Ad girişi -->
+  <!-- Form (artık veriyi localStorage ile işliyoruz) -->
+  <form onsubmit="formuIsle(); return false;">
     <label for="ad">Adınız:</label><br>
-    <input type="text" id="ad" name="ad"><br><br>
+    <input type="text" id="ad" name="ad" required><br><br>
 
-    <!-- Şehir seçimi (dropdown menü) -->
     <label for="sehir">En çok beğendiğiniz şehir:</label><br>
     <select id="sehir" name="sehir">
       <option>İstanbul</option>
@@ -40,23 +29,20 @@
       <option>Düzce</option>
     </select><br><br>
 
-    <!-- İlgi alanları (birden fazla seçim yapılabilir) -->
     <label>Turistik yerlere ilginiz:</label><br>
-
-    <input type="checkbox" id="tarih" name="ilgi_tarih" value="tarih">
+    <input type="checkbox" id="tarih" value="Tarihi Yerler">
     <label for="tarih">Tarihi Yerler</label><br>
 
-    <input type="checkbox" id="doga" name="ilgi_doga" value="doga">
+    <input type="checkbox" id="doga" value="Doğal Güzellikler">
     <label for="doga">Doğal Güzellikler</label><br>
 
-    <input type="checkbox" id="kultur" name="ilgi_kultur" value="kultur">
-    <label for="kultur">Kültürel Etkinlikler</label><br>
+    <input type="checkbox" id="kultur" value="Kültürel Etkinlikler">
+    <label for="kultur">Kültürel Etkinlikler</label><br><br>
 
-    <!-- Formu gönderme butonu -->
     <input type="submit" value="Gönder">
   </form>
 
-  <!-- Sayfa içi gezinti menüsü -->
+  <!-- Navigasyon -->
   <nav>
     <a href="../index.html">Ana Sayfa</a> |
     <a href="../sehiroyunu/sehir-oyunu.html">Şehir Tahmin Oyunu</a> |
@@ -68,5 +54,30 @@
     <a href="../kocaeli/kocaeli.html">Kocaeli</a> |
     <a href="../düzce/düzce.html">Düzce</a>
   </nav>
+
+  <script>
+    function formuIsle() {
+      const ad = document.getElementById("ad").value;
+      const sehir = document.getElementById("sehir").value;
+
+      // İlgi alanlarını topla
+      const ilgiler = [];
+      if (document.getElementById("tarih").checked) ilgiler.push("Tarihi Yerler");
+      if (document.getElementById("doga").checked) ilgiler.push("Doğal Güzellikler");
+      if (document.getElementById("kultur").checked) ilgiler.push("Kültürel Etkinlikler");
+
+      // Verileri localStorage'a kaydet
+      localStorage.setItem("ziyaretci_ad", ad);
+      localStorage.setItem("ziyaretci_sehir", sehir);
+      localStorage.setItem("ziyaretci_ilgi", JSON.stringify(ilgiler));
+
+      // Yönlendir
+      window.location.href = "sonuc.html";
+    }
+  </script>
+  <footer>
+  <p>&copy; 2025 Türkiye'nin Turistik Şehirleri. Tüm hakları saklıdır.</p>
+</footer>
+
 </body>
 </html>

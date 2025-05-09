@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <!-- Sayfa karakter seti ve stil dosyasının bağlantısı -->
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../style.css">
-
-  <!-- Tarayıcı sekmesinde kullanılacak simge -->
   <link rel="icon" type="image/png" href="../img/favicon.png">
-
-  <!-- Sayfanın başlığı (tarayıcı sekmesinde görünür) -->
   <title>Form Sonucu</title>
 </head>
 <body>
-  
-  <!-- Ana başlık -->
+
   <h1>Teşekkürler!</h1>
-  
-  <!-- Tema değiştirme butonları -->
   <button onclick="temaDegistir('#FFD1DC')">Pembe Tema</button>
   <button onclick="temaDegistir('#FFD580')">Varsayılan Tema</button>
-  
-  <!-- JavaScript dosyası (tema değişimini kontrol eder) -->
   <script src="../myscript.js"></script>
 
-  <!-- Form gönderildiğinde kullanıcıya teşekkür mesajı -->
-  <p>Formunuz başarıyla gönderildi. İlginiz için teşekkür ederiz.</p>
-  
-  <!-- Sayfa içi gezinti menüsü -->
-  <nav>
-    <!-- Ana Sayfa linki -->
-    <a href="../index.html">Ana Sayfa</a> |
-    
-    <!-- Şehir Tahmin Oyunu sayfası -->
-    <a href="../sehiroyunu/sehir-oyunu.html">Şehir Tahmin Oyunu</a> |
+  <p>Formunuz başarıyla gönderildi. Aşağıda girdiğiniz bilgiler listelenmiştir:</p>
 
-     <!-- Form sayfasına geri dönülmesi için link -->
+  <!-- Verilerin görüntüleneceği tablo -->
+  <table border="1" style="border-collapse: collapse; width: 50%;">
+    <tr>
+      <th>Adınız</th>
+      <td id="adCell"></td>
+    </tr>
+    <tr>
+      <th>En Beğendiğiniz Şehir</th>
+      <td id="sehirCell"></td>
+    </tr>
+    <tr>
+      <th>İlgi Alanlarınız</th>
+      <td id="ilgiCell"></td>
+    </tr>
+  </table>
+
+  <!-- Navigasyon -->
+  <nav style="margin-top: 20px;">
+    <a href="../index.html">Ana Sayfa</a> |
+    <a href="../sehiroyunu/sehir-oyunu.html">Şehir Tahmin Oyunu</a> |
     <a href="../form/form.html">Form</a> |
-    
-    <!-- Tablo sayfası linki -->
     <a href="../tablo/tablo.html">Tablo</a> |
-    
-    <!-- Şehir sayfaları için bağlantılar -->
     <a href="../istanbul/istanbul.html">İstanbul</a> |
     <a href="../antalya/antalya.html">Antalya</a> |
     <a href="../bursa/bursa.html">Bursa</a> |
@@ -48,6 +44,22 @@
     <a href="../kocaeli/kocaeli.html">Kocaeli</a> |
     <a href="../düzce/düzce.html">Düzce</a>
   </nav>
-  
+
+  <!-- Verileri al ve tabloya yaz -->
+  <script>
+    // localStorage'dan verileri al
+    const ad = localStorage.getItem("ziyaretci_ad");
+    const sehir = localStorage.getItem("ziyaretci_sehir");
+    const ilgiler = JSON.parse(localStorage.getItem("ziyaretci_ilgi") || "[]");
+
+    // HTML içine yerleştir
+    document.getElementById("adCell").textContent = ad || "-";
+    document.getElementById("sehirCell").textContent = sehir || "-";
+    document.getElementById("ilgiCell").textContent = ilgiler.length > 0 ? ilgiler.join(", ") : "-";
+  </script>
+  <footer>
+  <p>&copy; 2025 Türkiye'nin Turistik Şehirleri. Tüm hakları saklıdır.</p>
+</footer>
+
 </body>
 </html>
