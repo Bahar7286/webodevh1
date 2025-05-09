@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr"> 
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="icon" type="image/png" href="../img/favicon.png">
-  
-  <title>Şehir Karşılaştırma Tablosu</title>
+  <meta charset="UTF-8"> <!-- Türkçe karakterler için uygun karakter kodlaması -->
+  <link rel="stylesheet" href="../style.css"> <!-- Harici stil dosyası bağlantısı -->
+  <link rel="icon" type="image/png" href="../img/favicon.png"> <!-- Sayfa simgesi (favicon) -->
+
+  <title>Şehir Karşılaştırma Tablosu</title> <!-- Tarayıcı sekmesinde görünen başlık -->
 </head>
 <body>
-  <h1>Şehir Karşılaştırma Tablosu</h1>
-  
-  <table border="1">
+  <h1>Şehir Karşılaştırma Tablosu</h1> <!-- Sayfa başlığı -->
+
+  <!-- Tema değiştirmek için iki buton -->
+  <button onclick="temaDegistir('#FFD1DC')">Pembe Tema</button>
+  <button onclick="temaDegistir('#FFD580')">Varsayılan Tema</button>
+  <script src="../myscript.js"></script> <!-- Tema değiştirme fonksiyonu gibi JavaScript dosyasını içe aktarır -->
+
+  <!-- Şehir bilgilerini karşılaştıran tablo -->
+  <table border="1"> <!-- Kenarlıklı tablo -->
     <thead>
       <tr>
+        <!-- Tablo başlıkları -->
         <th>Şehir</th>
         <th>İklim</th>
         <th>Turistik Yerler</th>
@@ -20,6 +27,7 @@
       </tr>
     </thead>
     <tbody>
+      <!-- Her satır bir şehir bilgisi içerir -->
       <tr>
         <td>İstanbul</td>
         <td>İstanbul, ılıman iklimdir.</td>
@@ -58,10 +66,12 @@
       </tr>
     </tbody>
   </table>
+
+  <!-- Sayfalar arası gezinmeyi sağlayan bağlantılar -->
   <nav>
     <a href="../index.html">Ana Sayfa</a> |
+    <a href="../sehiroyunu/sehir-oyunu.html">Şehir Tahmin Oyunu</a> |
     <a href="../form/form.html">Form</a> |
-    <a href="../tablo/tablo.html">Tablo</a> |
     <a href="../istanbul/istanbul.html">İstanbul</a> |
     <a href="../antalya/antalya.html">Antalya</a> |
     <a href="../bursa/bursa.html">Bursa</a> |
@@ -69,8 +79,6 @@
     <a href="../kocaeli/kocaeli.html">Kocaeli</a> |
     <a href="../düzce/düzce.html">Düzce</a>
   </nav>
-  
-  
+
 </body>
 </html>
-

@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"> <!-- Türkçe karakterleri doğru görüntülemek için -->
+  <title>Şehir Tahmin Oyunu</title>
+  <link rel="stylesheet" href="oyun.css"> <!-- CSS dosyasını bağlama -->
+</head>
+<body class="oyun-body"> <!-- Özel stil için sınıf ataması -->
+
+  <h1>Şehir Tahmin Oyunu</h1>
+  <p>Bir şehir adı seçildi. Harf harf tahmin etmeye çalışın!</p>
+<h2>Nasıl Oynanır?</h2>
+  <ul>
+    <li>Bilgisayar rastgele bir şehir seçer.</li> <!-- Oyun başında şehir seçilir -->
+    <li>Şehir adındaki harfler gizlenir ve alt çizgi (_) ile gösterilir.</li> <!-- Oyuncu harfleri tahmin eder -->
+    <li>Tek tek harf girerek şehir adını bulmaya çalışırsınız.</li>
+    <li>Toplam <strong>8 tahmin hakkınız</strong> vardır.</li> <!-- Oyuncunun 8 canı vardır -->
+    <li>Daha önce kullandığınız harfler gösterilir.</li>
+    <li>Şehri doğru tahmin ederseniz oyunu kazanırsınız.</li>
+  </ul>
+
+  <!-- Ek bilgi -->
+  <p><strong>İpucu:</strong> Tahmin ettiğiniz harf doğruysa yerine yerleşir. Yanlışsa haklarınızdan biri azalır.</p>
+  <br><br>
+
+
+  <!-- Gizli şehir adını gösterecek alan -->
+  <div id="kelime">_ _ _ _ _</div>
+
+  <!-- Harf giriş alanı ve tahmin butonu -->
+  <div id="harfAlani">
+    <input type="text" id="harf" maxlength="1"> <!-- Tek harflik giriş -->
+    <button id="tahminButon">Tahmin Et</button> <!-- Tahmin işlemi butonu -->
+  </div>
+
+  <!-- Kullanıcının kalan tahmin hakkı -->
+  <div><strong>Tahmin Hakkı:</strong> <span id="bilgi">8</span> / 8</div>
+
+  <!-- Kullanılan harflerin listesi -->
+  <div><strong>Kullanılan Harfler:</strong> <span id="harfler">-</span></div>
+
+  <!-- Oyunun sonucunu gösteren alan -->
+  <div id="sonuc"></div>
+  <!-- Sayfa içi gezinme menüsü -->
+  <nav>
+    <a href="../index.html">Ana Sayfa</a> |
+    <a href="../form/form.html">Form</a> |
+    <a href="../tablo/tablo.html">Tablo</a> |
+    <a href="../istanbul/istanbul.html">İstanbul</a> |
+    <a href="../antalya/antalya.html">Antalya</a> |
+    <a href="../bursa/bursa.html">Bursa</a> |
+    <a href="../izmir/izmir.html">İzmir</a> |
+    <a href="../kocaeli/kocaeli.html">Kocaeli</a> |
+    <a href="../düzce/düzce.html">Düzce</a>
+  </nav>
+
+  <!-- Oyun JavaScript kodları -->
+  <script>
+    // Türkiye'deki tüm iller listesi
+    const sehirler = [
+      "adana", "adıyaman", "afyonkarahisar", "ağri", "amasya", "ankara", "antalya", "artvin",
+      "aydın", "balıkesir", "bilecik", "bingol", "bitlis", "bolu", "burdur", "bursa", "çanakkale",
+      "çankırı", "çorum", "denizli", "diyarbakır", "edirne", "elaziğ", "erzincan", "erzurum",
+      "eskişehir", "gaziantep", "giresun", "gümüşhane", "hakkari", "hatay", "ığdır", "ısparta",
+      "istanbul", "izmir", "kahramanmaraş", "karabük", "karaman", "kars", "kastamonu", "kayseri",
+      "kırıkkale", "kırklareli", "kırşehir", "kocaeli", "konya", "kütahya", "malatya", "manisa",
+      "mardin", "mersin", "muğla", "muş", "nevşehir", "niğde", "ordu", "osmaniye", "rize", "sakarya",
+      "samsun", "siirt", "sinop", "sivas", "şanlıurfa", "şırnak", "tekirdağ", "tokat", "trabzon",
+      "tunceli", "uşak", "van", "yalova", "yozgat", "zonguldak", "aksaray", "bayburt", "batman",
+      "bartın", "ardahan", "kilis", "düzce"
+    ];
+
+    let secilen; // Bilgisayar tarafından seçilen şehir
+    let gorunen; // Tahmin edilen harflerle görüntülenen hali
+    let can = 8; // Kullanıcının tahmin hakkı
+    let kullanilanHarfler = []; // Kullanıcının kullandığı harfler
+
+    // HTML elemanlarına erişim
+    const kelimeEl = document.getElementById("kelime");
+    const bilgiEl = document.getElementById("bilgi");
+    const harfInput = document.getElementById("harf");
+    const harflerEl = document.getElementById("harfler");
+    const sonucEl = document.getElementById("sonuc");
+    const tahminButon = document.getElementById("tahminButon");
+
+    // Oyunu başlatan fonksiyon
+    function baslatOyunu() {
+      secilen = getYeniSehir(); // Yeni şehir seçilir
+      gorunen = Array(secilen.length).fill("_"); // Şehir "_" ile gizlenir
+      kelimeEl.innerHTML = gorunen.join(" "); // Sayfada gösterilir
+      bilgiEl.innerText = can; // Can bilgisi güncellenir
+      harflerEl.innerText = "-"; // Kullanılan harfler temizlenir
+      sonucEl.innerHTML = ""; // Sonuç mesajı temizlenir
+      harfInput.disabled = false; // Harf giriş aktif olur
+      harfInput.focus(); // Kullanıcının giriş yapması için odaklanılır
+    }
+
+    // Yeni şehir seçme fonksiyonu
+    function getYeniSehir() {
+      const secilenSehir = sehirler[Math.floor(Math.random() * sehirler.length)]; // Rastgele şehir seçilir
+
+      // Aynı şehir tekrar seçilmesin
+      if (secilenSehir === secilen) {
+        return getYeniSehir();
+      }
+
+      return secilenSehir;
+    }
+
+    // Harf tahmini yapan fonksiyon
+    function tahminEt() {
+      let harf = harfInput.value.toLowerCase(); // Girilen harf alınır ve küçültülür
+      harfInput.value = ""; // Giriş kutusu temizlenir
+      harfInput.focus(); // Tekrar odaklanılır
+
+      // Geçerli bir harf girilmemişse
+      if (harf.length !== 1 || !/[a-zçğıöşü]/.test(harf)) {
+        alert("Lütfen geçerli bir harf girin.");
+        return;
+      }
+
+      // Daha önce kullanılmış harf kontrolü
+      if (kullanilanHarfler.includes(harf)) {
+        alert("Bu harfi zaten kullandınız.");
+        return;
+      }
+
+      // Harf listeye eklenir
+      kullanilanHarfler.push(harf);
+      harflerEl.innerText = kullanilanHarfler.join(", "); // Harfler ekrana yazılır
+
+      let dogru = false;
+
+      // Girilen harf doğruysa ilgili yerlere yerleştirilir
+      for (let i = 0; i < secilen.length; i++) {
+        if (secilen[i] === harf && gorunen[i] === "_") {
+          gorunen[i] = harf;
+          dogru = true;
+        }
+      }
+
+      // Yanlış tahminse can azaltılır
+      if (!dogru) {
+        can--;
+      }
+
+      // Ekrana güncel kelime ve can bilgisi yazdırılır
+      kelimeEl.innerHTML = gorunen.join(" ");
+      bilgiEl.innerText = can;
+
+      // Oyun sonu durumları
+      if (can === 0) {
+        // Kaybettiyse mesaj ve yeniden başlatma
+        sonucEl.innerHTML = `<p style="color:red;"><strong>Oyun Bitti!</strong> Doğru şehir: ${secilen}</p><button onclick="location.reload()">Yeniden Başla</button>`;
+        harfInput.disabled = true;
+      } else if (!gorunen.includes("_")) {
+        // Tüm harfler tahmin edildiyse kazanır
+        sonucEl.innerHTML = `<p style="color:green;"><strong>Tebrikler!</strong> Şehri bildiniz: ${secilen}</p><button onclick="location.reload()">Yeniden Başla</button>`;
+        harfInput.disabled = true;
+      }
+    }
+
+    // Tahmin butonuna tıklanırsa
+    tahminButon.onclick = tahminEt;
+
+    // Enter tuşuna basıldığında da tahmin yapılır
+    harfInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        tahminEt();
+      }
+    });
+
+    // Sayfa yüklenince oyunu başlat
+    baslatOyunu();
+  </script>
+
+</body>
+</html>

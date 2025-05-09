@@ -1,20 +1,46 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+  <!-- Sayfa karakter seti ve stil dosyasının bağlantısı -->
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../style.css">
+
+  <!-- Tarayıcı sekmesinde kullanılacak simge -->
   <link rel="icon" type="image/png" href="../img/favicon.png">
 
-  
+  <!-- Sayfanın başlığı (tarayıcı sekmesinde görünür) -->
   <title>Form Sonucu</title>
 </head>
 <body>
+  
+  <!-- Ana başlık -->
   <h1>Teşekkürler!</h1>
+  
+  <!-- Tema değiştirme butonları -->
+  <button onclick="temaDegistir('#FFD1DC')">Pembe Tema</button>
+  <button onclick="temaDegistir('#FFD580')">Varsayılan Tema</button>
+  
+  <!-- JavaScript dosyası (tema değişimini kontrol eder) -->
+  <script src="../myscript.js"></script>
+
+  <!-- Form gönderildiğinde kullanıcıya teşekkür mesajı -->
   <p>Formunuz başarıyla gönderildi. İlginiz için teşekkür ederiz.</p>
+  
+  <!-- Sayfa içi gezinti menüsü -->
   <nav>
+    <!-- Ana Sayfa linki -->
     <a href="../index.html">Ana Sayfa</a> |
+    
+    <!-- Şehir Tahmin Oyunu sayfası -->
+    <a href="../sehiroyunu/sehir-oyunu.html">Şehir Tahmin Oyunu</a> |
+
+     <!-- Form sayfasına geri dönülmesi için link -->
     <a href="../form/form.html">Form</a> |
+    
+    <!-- Tablo sayfası linki -->
     <a href="../tablo/tablo.html">Tablo</a> |
+    
+    <!-- Şehir sayfaları için bağlantılar -->
     <a href="../istanbul/istanbul.html">İstanbul</a> |
     <a href="../antalya/antalya.html">Antalya</a> |
     <a href="../bursa/bursa.html">Bursa</a> |
@@ -23,7 +49,5 @@
     <a href="../düzce/düzce.html">Düzce</a>
   </nav>
   
- 
 </body>
 </html>
-
